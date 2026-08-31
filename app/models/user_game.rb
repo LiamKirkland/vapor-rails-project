@@ -1,0 +1,3 @@
+class UserGame < ApplicationRecord
+  
+end
