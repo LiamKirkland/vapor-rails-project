@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_161503) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_185212) do
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "developer", null: false
@@ -33,5 +33,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_161503) do
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
+    t.string "username_normalized"
+    t.index ["username_normalized"], name: "index_users_on_username_normalized", unique: true
   end
 end
