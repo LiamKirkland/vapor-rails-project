@@ -1,0 +1,7 @@
+<h2>Log in</h2>
+<%= form_with url: login_path, scope: :user do |f| %>
+  Username: <%= f.text_field :username, required: true %><br>
+  Password: <%= f.password_field :password, required: true %><br>
+  <%= f.submit 'Log In' %>
+<% end %>
+<a href=<%=signup_path%>>Don't have an account? Sign up now!</a>

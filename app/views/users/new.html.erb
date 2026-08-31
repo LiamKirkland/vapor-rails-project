@@ -1,0 +1,8 @@
+<h2>Signup</h2>
+<%= form_with model: @user, url: signup_path, scope: :user do |f| %>
+  Username: <%= f.text_field :username, required: true %><br>
+  Password: <%= f.password_field :password, required: true %><br>
+  Confirm Password: <%= f.password_field :password_confirmation, required: true %><br>
+  <%= f.submit 'Create User' %>
+<% end %>
+<a href=<%=login_path%>>Already have an account? Click here to login</a>
