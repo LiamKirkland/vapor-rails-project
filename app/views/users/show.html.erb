@@ -1,4 +1,4 @@
 <h1>This is <%= @user.username %>'s profile!</h1>
 
 <h3>Their games:</h3>
-<%= render partial: 'gameslist' %>
+<%= render partial: 'games/gameslist', locals: { games: @user.games } %>
