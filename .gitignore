@@ -35,3 +35,5 @@
 
 /storage/*.sqlite3
 /storage/*.sqlite3-*
+/db/*.sqlite3
+/db/*.sqlite3-*
