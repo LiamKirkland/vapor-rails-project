@@ -1,4 +1,8 @@
 <h1>Welcome, <%= @user.username %>!</h1>
 
 <h3>Your games:</h3>
-<%= render partial: 'gameslist' %>
+<% if @user.games.empty? %>
+  <i>Visit the <%= link_to 'games list', games_path%> to add some games to your collection!</i>
+<% else %>
+  <%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+<% end %>
