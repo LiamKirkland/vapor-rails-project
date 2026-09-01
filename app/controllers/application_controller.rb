@@ -1,8 +1,10 @@
 class ApplicationController < ActionController::Base
+  before_action :require_login
   allow_browser versions: :modern
   stale_when_importmap_changes
+  helper_method :current_user
 
-  helper_method :current_user, :logged_in?
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def current_user_id
     session[:user_id]
@@ -12,7 +14,17 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(id: current_user_id)
   end
 
-  def logged_in?
-    current_user.present?
+  def require_login
+    unless current_user
+      flash[:alert] = "You must be logged in."
+      redirect_to login_path
+    end
+  end
+
+  private
+
+  def record_not_found
+    flash[:alert] = "Entry not found."
+    redirect_to root_path
   end
 end

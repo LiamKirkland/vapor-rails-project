@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, only: %i[new create]
   def show
-    @user = User.find(current_user_id)
+    @user = User.find(params[:id])
   end
   
+  def home
+    @user = User.find(current_user_id)
+  end
   def new
     @user = User.new
   end
@@ -13,7 +17,8 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to root_path
     else
-      redirect_to signup_path
+      flash.now[:alert] = @user.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 

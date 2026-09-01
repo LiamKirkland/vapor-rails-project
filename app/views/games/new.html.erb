@@ -1,0 +1,8 @@
+<h2>Add a Game</h2>
+
+<%= form_with model: @game, scope: :game do |f| %>
+  Name: <%= f.text_field :name, required: true %><br>
+  Developer: <%= f.text_field :developer, required: true %><br>
+  Release Date: <%= f.date_field :release_date, required: true %><br>
+  <%= f.submit %>
+<% end %>

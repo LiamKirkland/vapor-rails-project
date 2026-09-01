@@ -33,3 +33,8 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+/storage/*.sqlite3
+/storage/*.sqlite3-*
+
+/db/*.sqlite3
+/db/*.sqlite3-*
