@@ -1,0 +1,6 @@
+<h1>User Index</h1>
+<% if @users.empty? %>
+There are currently no users, how are you seeing this?
+<% else %>
+  <%= render partial: 'userslist', locals: { users: @users } %>
+<% end %>

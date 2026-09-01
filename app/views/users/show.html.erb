@@ -1,4 +1,26 @@
 <h1>This is <%= @user.username %>'s profile!</h1>
 
+<% case current_user.friendship_status_with(@user) %>
+  <% when :friends %>
+    <%= button_to 'Remove Friend', friendship_path(current_user.friendship_with(@user)), method: :delete %>
+  <% when :pending_sent %>
+    <%= button_to 'Request Pending', friendships_path, disabled: true %>
+  <% when :pending_received %>
+    <%= button_to 'Accept Request', accept_friendship_path(current_user.friendship_with(@user)), method: :patch %>
+  <% when :none %>
+    <%= button_to 'Add Friend', friendships_path(friend_id: @user.id), method: :post %>
+  <% end %>
+
 <h3>Their games:</h3>
-<%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+<% if @user.games.empty? %>
+  <i><%= @user.username %> hasn't added any games to their collection yet.</i>
+<% else %>
+  <%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+<% end %>
+
+<h3>Their friends:</h3>
+<% if @user.friends_list.empty? %>
+  <i>Be the first on <%= @user.username %>'s friends list!</i>
+<% else %>
+  <%= render partial: 'userslist', locals: { users: @user.friends_list } %>
+<% end %>
