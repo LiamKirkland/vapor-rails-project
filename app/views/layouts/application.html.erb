@@ -22,6 +22,9 @@
   <body>
     <nav>
       <% if current_user %>
+        <%= link_to 'Home', root_path %>
+        <%= link_to 'Games List', games_path %>
+        <%= link_to 'Add a Game', new_game_path %>
         <span>Signed in as <%= current_user.username %></span>
         <%= button_to "Log out", logout_path, method: :post %>
       <% end %>

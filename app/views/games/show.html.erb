@@ -1,0 +1,9 @@
+<h1><%= @game.name %></h1>
+<h3>Dev: <%= @game.developer %></h3>
+<h3>Release Date: <%= @game.formatted_release %></h3>
+<% if current_user.games.include?(@game) %>
+  <% user_game = current_user.user_games.find_by(game: @game) %>
+  <%= button_to "Remove Game From Collection", user_game_path(user_game), method: :delete %>
+<% else %>
+  <%= button_to "Add Game To Collection", game_user_games_path(@game), method: :post %>
+<% end %>
