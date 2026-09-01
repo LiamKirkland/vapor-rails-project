@@ -13,7 +13,8 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to root_path
     else
-      redirect_to signup_path
+      flash.now[:alert] = @user.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 
