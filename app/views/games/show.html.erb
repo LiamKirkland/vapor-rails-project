@@ -26,18 +26,24 @@
 <% else %>
   <%= button_to "Add Game To Collection", game_user_games_path(@game), method: :post %>
 <% end %>
-<%= button_to "Edit Game", edit_game_path(@game), method: :get %>
+<% if current_user&.admin? %>
+  <%= button_to "Edit Game", edit_game_path(@game), method: :get %>
+<% end %>
 <hr>
 <h3>User Reviews:</h3>
-<% @game.user_games.where.not(score: nil).each do |review| %>
-  <div class="review-box">
-    <div>
-      <%= image_tag review.user.display_profile_pic, class: "pfp-img", width: 45, height: 45 %>
-      <%= review.user.username%>
+<% if @game.user_games.where.not(score: nil).empty? %>
+  <i>There are no reviews for this game. Be the first to leave one!</i>
+<% else %>
+  <% @game.user_games.where.not(score: nil).each do |review| %>
+    <div class="review-box">
+      <div>
+        <%= image_tag review.user.display_profile_pic, class: "pfp-img", width: 45, height: 45 %>
+        <%= review.user.username%>
+      </div>
+      Score: <%= review.score%><br>
+      <% if !review.review.blank? %>
+      Review: <%= review.review %>
+      <% end %>
     </div>
-    Score: <%= review.score%><br>
-    <% if !review.review.blank? %>
-    Review: <%= review.review %>
-    <% end %>
-  </div>
+  <% end %>
 <% end %>

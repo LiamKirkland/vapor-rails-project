@@ -27,6 +27,7 @@ class Game < ApplicationRecord
 
   def avg_score
     game_scores = user_games.where.not(score: nil).pluck(:score)
+    return "N/A" if game_scores.empty?
     game_scores.sum.fdiv(game_scores.size).round(1)
   end
 

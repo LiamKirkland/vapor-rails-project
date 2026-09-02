@@ -56,6 +56,10 @@ class User < ApplicationRecord
     profile_pic.attached? ? profile_pic : "no-img.png"
   end
 
+  def admin?
+    admin
+  end
+
   def self.find_by_username(username)
     find_by(username_normalized: username.to_s.downcase)
   end
