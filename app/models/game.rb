@@ -8,8 +8,10 @@ class Game < ApplicationRecord
   normalizes :developer, with: ->(developer) { developer.strip }
   validates :developer, presence: true
   validates :release_date, presence: true
-  validate :prevent_dupe
+  validate :prevent_dupe, on: %i[create]
   validate :acceptable_cover_image
+
+  scope :unreleased_games, -> { where("release_date > ?", Date.today) }
 
   def formatted_release
     release_date.strftime("%m/%d/%Y")
