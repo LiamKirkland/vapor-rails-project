@@ -5,6 +5,19 @@
 <% if current_user.games.include?(@game) %>
   <% user_game = current_user.user_games.find_by(game: @game) %>
   <%= button_to "Remove Game From Collection", user_game_path(user_game), method: :delete %>
+
+  <%= form_with url: game_user_game_path(@game, user_game), method: :patch, scope: :user_game do |f| %>
+    Score:
+    <% (0..10).each do |score| %>
+      <div class="score-btn">
+        <%= f.radio_button :score, score, id: "score_#{score}", checked: (user_game.score == score) %>
+        <%= f.label :score, score, value: score %>
+      </div>
+    <% end %>
+    Review: <br>
+    <%= f.text_area :review, value: user_game.review %>
+    <%= f.submit %>
+  <% end %>
 <% else %>
   <%= button_to "Add Game To Collection", game_user_games_path(@game), method: :post %>
 <% end %>
