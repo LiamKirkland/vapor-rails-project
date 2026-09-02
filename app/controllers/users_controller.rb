@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
+  before_action :require_admin, only: [:admin_edit, :admin_update]
   def show
     @user = User.find(params[:id])
   end
@@ -47,10 +48,41 @@ class UsersController < ApplicationController
     end
   end
 
+  def admin_edit
+    @user = User.find(params[:id])
+    redirect_to edit_profile_path, notice: "You cannot edit your own admin status." and return if @user == current_user
+  end
+
+  def admin_update
+    @user = User.find(params[:id])
+
+    if @user == current_user && params[:user][:admin] != "1"
+      flash.now[:alert] = "You can't remove your own admin status"
+      render :admin_edit, status: :unprocessable_entity
+      return
+    end
+
+    if @user.update(admin_user_params)
+      @user.profile_pic.purge if params[:user][:remove_profile_pic] == "1"
+      redirect_to user_path(@user), notice: "Profile updated"
+    else
+      flash.now[:alert] = @user.errors.full_messages.to_sentence
+      render :admin_edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:username, :password, :password_confirmation, :profile_pic)
+  end
+
+  def require_admin
+    redirect_to root_path, alert: "You don't have permission to do that" unless current_user&.admin?
+  end
+
+  def admin_user_params
+    params.require(:user).permit(:username, :profile_pic, :admin)
   end
 
   def changing_password?

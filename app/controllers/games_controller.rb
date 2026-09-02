@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :require_admin, only: %i[new create edit update]
   def show
     @game = Game.find(params[:id])
   end
@@ -39,5 +40,9 @@ class GamesController < ApplicationController
 
   def game_params
     params.require(:game).permit(:name, :developer, :release_date, :cover_image)
+  end
+
+  def require_admin
+    redirect_to root_path, alert: "You do not have permission to do that." unless current_user.admin?
   end
 end

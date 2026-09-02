@@ -3,7 +3,12 @@ Rails.application.routes.draw do
     resources :user_games, only: %i[create update]
   end
   resources :user_games, only: %i[destroy]
-  resources :users, only: %i[show index]
+  resources :users, only: %i[show index] do
+    member do
+      get :admin_edit
+      patch :admin_update
+    end
+  end
   resources :friendships, only: %i[create destroy] do
     member do
       patch :accept
