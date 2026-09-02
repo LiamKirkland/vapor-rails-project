@@ -16,6 +16,8 @@ class User < ApplicationRecord
                                 message: "can only contain letters, numbers, periods, underscores, and dashes" }
   validates :password_digest, presence: true
 
+  scope :alpha_sort, -> { order(Arel.sql("LOWER(username)")) }
+
   has_secure_password
 
   def friends_list

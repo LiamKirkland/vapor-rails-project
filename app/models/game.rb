@@ -25,6 +25,11 @@ class Game < ApplicationRecord
     cover_image.attached? ? cover_image : "no-img.png"
   end
 
+  def avg_score
+    game_scores = user_games.where.not(score: nil).pluck(:score)
+    game_scores.sum.fdiv(game_scores.size).round(1)
+  end
+
   def self.sorted_list
     order(Arel.sql("LOWER(name)"), :release_date)
   end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :games, only: %i[new index show create edit update] do
-    resources :user_games, only: %i[create]
+    resources :user_games, only: %i[create update]
   end
   resources :user_games, only: %i[destroy]
   resources :users, only: %i[show index]

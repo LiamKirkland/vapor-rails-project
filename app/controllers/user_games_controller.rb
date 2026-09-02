@@ -15,4 +15,20 @@ class UserGamesController < ApplicationController
     user_game.destroy
     redirect_to user_game.game, notice: "Successfully removed from your collection"
   end
+
+  def update
+    user_game = current_user.user_games.find(params[:id])
+
+    if user_game.update(user_game_params)
+      redirect_to user_game.game, notice: "Review added"
+    else
+      redirect_to user_game.game, notice: "There was an issue adding your review. Refresh and try again."
+    end
+  end
+
+  private
+
+  def user_game_params
+    params.require(:user_game).permit(:review, :score)
+  end
 end
