@@ -68,3 +68,29 @@ nav {
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
+
+.score-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.score-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.score-btn input[type="radio"] {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.score-btn label {
+  line-height: 1;
+  margin: 0;
+  display: inline-block;
+  transform: translateY(1px);
+}
