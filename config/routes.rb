@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :games, only: %i[new index show create] do
+  resources :games, only: %i[new index show create edit update] do
     resources :user_games, only: %i[create]
   end
   resources :user_games, only: %i[destroy]
@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   post "/logout" => "sessions#destroy"
   get "/signup" => "users#new"
   post "/signup" => "users#create"
+  get "/edit_profile" => "users#edit"
+  patch "/edit_profile" => "users#update"
 
   root "users#home"
 end

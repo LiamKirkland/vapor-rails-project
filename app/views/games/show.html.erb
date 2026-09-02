@@ -8,3 +8,4 @@
 <% else %>
   <%= button_to "Add Game To Collection", game_user_games_path(@game), method: :post %>
 <% end %>
+<%= button_to "Edit Game", edit_game_path(@game), method: :get %>

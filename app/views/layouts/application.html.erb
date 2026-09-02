@@ -26,7 +26,9 @@
         <%= link_to 'Users List', users_path %>
         <%= link_to 'Games List', games_path %>
         <%= link_to 'Add a Game', new_game_path %>
-        <span><%= image_tag current_user.display_profile_pic, class: "pfp-img", width: 30, height: 30 %></span>
+        <%= link_to edit_profile_path do %>
+          <span><%= image_tag current_user.display_profile_pic, class: "pfp-img", width: 30, height: 30 %></span>
+        <% end %>
         <%= button_to "Log out", logout_path, method: :post %>
       <% end %>
     </nav>

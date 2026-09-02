@@ -26,9 +26,34 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = current_user
+  end
+
+  def update
+    @user = current_user
+    if changing_password? && !@user.authenticate(params[:user][:current_pass])
+      flash.now[:alert] = "Incorrect password"
+      render :edit, status: :unprocessable_entity
+      return
+    end
+
+    if @user.update(user_params)
+      @user.profile_pic.purge if params[:user][:remove_profile_pic] == "1"
+      redirect_to root_path, notice: "Profile updated"
+    else
+      flash.now[:alert] = @user.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :password_confirmation)
+    params.require(:user).permit(:username, :password, :password_confirmation, :profile_pic)
+  end
+
+  def changing_password?
+    params[:user][:password].present?
   end
 end
