@@ -1,13 +1,13 @@
 class FriendshipsController < ApplicationController
   def create
-   friend = User.find(params[:friend_id])
-   friendship = current_user.friendships.build(friend: friend)
+    friend = User.find(params[:friend_id])
+    friendship = current_user.friendships.build(friend: friend)
 
-   if friendship.save
-    redirect_back fallback_location: root_path, notice: "Friend request sent"
-   else
-    redirect_back fallback_location: root_path, alert: friendship.errors.full_messages.to_sentence
-   end
+    if friendship.save
+      redirect_back fallback_location: root_path, notice: "Friend request sent"
+    else
+      redirect_back fallback_location: root_path, alert: friendship.errors.full_messages.to_sentence
+    end
   end
 
   def accept

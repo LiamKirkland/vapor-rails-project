@@ -1,31 +1,34 @@
-<h1>This is <%= @user.username %>'s profile!</h1>
-<% if @user.admin? %>
-  <i>This user is an administrator</i><br>
-<% end %>
-<%= image_tag @user.display_profile_pic, class: "pfp-img", width: 200, height: 200 %><br>
-<% if current_user&.admin? %>
-  <%= link_to "Edit as Admin", admin_edit_user_path(@user) %>
-<% end %>
+<div class="panel">
+  <h1 class="profile-name">
+    <%= @user.username %>
+    <% if @user.admin? %><span class="admin-badge">Admin</span><% end %>
+  </h1>
+  <%= image_tag @user.display_profile_pic, class: "pfp-img", width: 200, height: 200 %><br><br>
+  <% if current_user&.admin? %>
+    <%= link_to "Edit as Admin", admin_edit_user_path(@user), class: "btn-secondary" %>
+  <% end %>
 
-<% case current_user.friendship_status_with(@user) %>
-  <% when :friends %>
-    <%= button_to 'Remove Friend', friendship_path(current_user.friendship_with(@user)), method: :delete %>
-  <% when :pending_sent %>
-    <%= button_to 'Request Pending', friendships_path, disabled: true %>
-  <% when :pending_received %>
-    <%= button_to 'Accept Request', accept_friendship_path(current_user.friendship_with(@user)), method: :patch %>
-  <% when :none %>
-    <%= button_to 'Add Friend', friendships_path(friend_id: @user.id), method: :post %>
-<% end %>
+  <% case current_user.friendship_status_with(@user) %>
+    <% when :friends %>
+      <%= button_to 'Remove Friend', friendship_path(current_user.friendship_with(@user)), method: :delete, class: "btn-danger" %>
+    <% when :pending_sent %>
+      <%= button_to 'Request Pending', friendships_path, disabled: true %>
+    <% when :pending_received %>
+      <%= button_to 'Accept Request', accept_friendship_path(current_user.friendship_with(@user)), method: :patch %>
+    <% when :none %>
+      <%= button_to 'Add Friend', friendships_path(friend_id: @user.id), method: :post %>
+  <% end %>
+</div>
 
-<h3>Their games:</h3>
+<h3 class="section-title">Their games:</h3>
 <% if @user.games.empty? %>
   <i><%= @user.username %> hasn't added any games to their collection yet.</i>
 <% else %>
   <%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+  <%= link_to "View All Reviews", user_user_games_path(@user) %>
 <% end %>
 
-<h3>Their friends:</h3>
+<h3 class="section-title">Their friends:</h3>
 <% if @user.friends_list.empty? %>
   <i>Be the first on <%= @user.username %>'s friends list!</i>
 <% else %>

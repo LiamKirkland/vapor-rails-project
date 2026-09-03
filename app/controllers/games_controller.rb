@@ -7,6 +7,7 @@ class GamesController < ApplicationController
   def index
     @games = Game.sorted_list
   end
+
   def new
     @game = Game.new
   end
@@ -36,7 +37,7 @@ class GamesController < ApplicationController
     end
   end
 
-  private
+private
 
   def game_params
     params.require(:game).permit(:name, :developer, :release_date, :cover_image)

@@ -7,13 +7,13 @@ class User < ApplicationRecord
   has_many :inv_friends, through: :inv_friendships, source: :user
   has_one_attached :profile_pic
 
-  normalizes :username, with: ->(username) { username.strip }
+  normalizes :username, with: lambda(&:strip)
   before_validation :normalize_username
 
   validates :username, presence: true
   validates :username_normalized, uniqueness: true,
-                      format: { with: /\A[a-zA-Z0-9._-]+\z/,
-                                message: "can only contain letters, numbers, periods, underscores, and dashes" }
+                                  format: { with: /\A[a-zA-Z0-9._-]+\z/,
+                                            message: "can only contain letters, numbers, periods, and dashes" }
   validates :password_digest, presence: true
 
   scope :alpha_sort, -> { order(Arel.sql("LOWER(username)")) }
@@ -60,11 +60,27 @@ class User < ApplicationRecord
     admin
   end
 
+  def unreviewed_games
+    games.merge(user_games.where(score: nil))
+  end
+
+  def suggested_friends(limit: 5)
+    excluded_ids = (friendships.pluck(:friend_id) + inv_friendships.pluck(:user_id) + [id]).uniq
+
+    candidate_ids = friends_list.flat_map { |friend| friend.friends_list.map(&:id) }
+
+    User.where(id: candidate_ids)
+        .where.not(id: excluded_ids)
+        .group("users.id")
+        .order(Arel.sql("COUNT(users.id) DESC"))
+        .limit(limit)
+  end
+
   def self.find_by_username(username)
     find_by(username_normalized: username.to_s.downcase)
   end
 
-  private
+private
 
   def normalize_username
     self.username_normalized = username.to_s.downcase

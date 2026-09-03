@@ -8,16 +8,32 @@
 
 <h1>Welcome, <%= @user.username %>!</h1>
 
-<h3>Your games:</h3>
+<h3 class="section-title">Your games:</h3>
 <% if @user.games.empty? %>
   <i>Visit the <%= link_to 'games list', games_path%> to add some games to your collection!</i>
 <% else %>
   <%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+  <%= link_to "View Your Reviews", user_user_games_path(@user) %>
 <% end %>
 
-<h3>Your friends:</h3>
+<% unless @unreviewed_games.empty? %>
+  <h3 class="section-title">Rate your games:</h3>
+  <p class="hint-text">You haven't rated these yet. Take a look and consider leaving a review!</p>
+  <%= render partial: 'games/gameslist', locals: { games: @unreviewed_games } %>
+<% end %>
+
+<h3 class="section-title">Your friends:</h3>
 <% if @user.friends_list.empty? %>
   <i>You have no friends, loser</i>
 <% else %>
   <%= render partial: 'userslist', locals: { users: @user.friends_list } %>
 <% end %>
+
+<% unless @suggested_friends.empty? %>
+  <h3 class="section-title">People you may know:</h3>
+  <p class="hint-text">Based on mutual friends.</p>
+  <%= render partial: 'userslist', locals: { users: @suggested_friends } %>
+<% end %>
+
+<h3 class="section-title">Recently added games:</h3>
+<%= render partial: 'games/gameslist', locals: { games: @recent_games } %>

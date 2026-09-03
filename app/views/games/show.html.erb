@@ -1,48 +1,64 @@
-<h1><%= @game.name %></h1>
-<%= image_tag @game.display_cover_image, width: 150, height: 210, class: "cover-thumb" %>
-<h3>Dev: <%= @game.developer %></h3>
-<h3>Release Date: <%= @game.formatted_release %></h3>
-<h3>Average User Score: <%= @game.avg_score %></h3>
+<div class="game-hero">
+  <%= image_tag @game.display_cover_image, width: 150, height: 210, class: "cover-thumb" %>
+  <div class="game-hero-info">
+    <h1><%= @game.name %></h1>
+    <h3>Developer: <%= @game.developer %></h3>
+    <h3>Release Date: <%= @game.formatted_release %></h3>
+    <h3>Average User Score: <%= @game.avg_score %></h3>
+  </div>
+</div>
 
 <% if current_user.games.include?(@game) %>
   <% user_game = current_user.user_games.find_by(game: @game) %>
 
-  <%= form_with url: game_user_game_path(@game, user_game), method: :patch, scope: :user_game do |f| %>
-    Score:
-    <div class="score-group">
-      <% (0..10).each do |score| %>
-        <div class="score-btn">
-          <%= f.radio_button :score, score, id: "score_#{score}", checked: (user_game.score == score) %>
-          <%= f.label :score, score, value: score %>
+  <div class="panel">
+    <%= form_with url: game_user_game_path(@game, user_game), method: :patch, scope: :user_game do |f| %>
+      <div class="form-field">
+        <label>Score:</label>
+        <div class="score-group">
+          <% (0..10).each do |score| %>
+            <div class="score-btn">
+              <%= f.radio_button :score, score, id: "score_#{score}", checked: (user_game.score == score) %>
+              <%= f.label :score, score, value: score, for: "score_#{score}" %>
+            </div>
+          <% end %>
         </div>
-      <% end %>
-    </div>
-    Review: <br>
-    <%= f.text_area :review, value: user_game.review %>
-    <%= f.submit 'Save Review' %>
-  <% end %>
+      </div>
 
-  <%= button_to "Remove Game From Collection", user_game_path(user_game), method: :delete %>
-<% else %>
+      <div class="form-field">
+        <%= f.label :review, "Review:" %>
+        <%= f.text_area :review, value: user_game.review %>
+      </div>
+
+      <%= f.submit 'Save Review' %>
+    <% end %>
+
+    <div class="panel-actions">
+      <%= button_to "Remove Game From Collection", user_game_path(user_game), method: :delete, class: "btn-danger" %>
+    </div>
+  </div>
+<% elsif !Game.unreleased_games.include?(@game) %>
   <%= button_to "Add Game To Collection", game_user_games_path(@game), method: :post %>
 <% end %>
+
 <% if current_user&.admin? %>
-  <%= button_to "Edit Game", edit_game_path(@game), method: :get %>
+  <%= button_to "Edit Game", edit_game_path(@game), method: :get, class: "btn-secondary" %>
 <% end %>
+
 <hr>
-<h3>User Reviews:</h3>
+<h3 class="section-title">User Reviews:</h3>
 <% if @game.user_games.where.not(score: nil).empty? %>
   <i>There are no reviews for this game. Be the first to leave one!</i>
 <% else %>
   <% @game.user_games.where.not(score: nil).each do |review| %>
     <div class="review-box">
-      <div>
+      <div class="reviewer">
         <%= image_tag review.user.display_profile_pic, class: "pfp-img", width: 45, height: 45 %>
-        <%= review.user.username%>
+        <strong><%= review.user.username %></strong>
       </div>
-      Score: <%= review.score%><br>
+      <span class="review-score">Score: <%= review.score %></span><br>
       <% if !review.review.blank? %>
-      Review: <%= review.review %>
+        Review: <%= review.review %>
       <% end %>
     </div>
   <% end %>

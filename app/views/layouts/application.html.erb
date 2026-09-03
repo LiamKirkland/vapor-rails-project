@@ -11,9 +11,8 @@
 
     <%= yield :head %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" href="<%= asset_path('vapor-logo.png') %>" type="image/png">
+  <link rel="apple-touch-icon" href="<%= asset_path('vapor-logo.png') %>">
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -21,6 +20,10 @@
 
   <body>
     <nav>
+      <span class="nav-brand">
+        <%= image_tag 'vapor-white.png', class: "nav-logo" %>
+        VAPOR
+      </span>
       <% if current_user %>
         <%= link_to 'Home', root_path %>
         <%= link_to 'Users List', users_path %>
@@ -28,17 +31,20 @@
         <% if current_user&.admin? %>
           <%= link_to "Add a Game", new_game_path %>
         <% end %>
-        <%= link_to edit_profile_path do %>
+        <div class="nav-spacer"></div>
+        <%= link_to edit_profile_path, class: "nav-user-pic" do %>
           <span><%= image_tag current_user.display_profile_pic, class: "pfp-img", width: 30, height: 30 %></span>
         <% end %>
-        <%= button_to "Log out", logout_path, method: :post %>
+        <%= button_to "Log out", logout_path, method: :post, class: "btn-secondary" %>
       <% end %>
     </nav>
 
     <% flash.each do |type, message| %>
       <div class="flash <%= type %>"><%= message %></div>
     <% end %>
-    
-    <%= yield %>
+
+    <div class="page-wrap">
+      <%= yield %>
+    </div>
   </body>
 </html>
