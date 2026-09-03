@@ -9,11 +9,10 @@ AllCops:
     - 'spec/*'
     - 'spec/**/*'
     - 'vendor/**/*'
-    - 'db/schema.rb'
+    - 'db/**/*'
     - 'config/**'
     - 'config/**/*'
     - 'bin/**'
-    - 'db/migrate/*'
 
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent

@@ -57,7 +57,7 @@ private
   def acceptable_cover_image
     return unless cover_image.attached?
 
-    erros.add(:cover_image, "file is too large (max 5MB)") unless cover_image.blob.byte_size <= 5.megabytes
+    errors.add(:cover_image, "file is too large (max 5MB)") unless cover_image.blob.byte_size <= 5.megabytes
 
     acceptable_types = %w[image/jpeg image/png]
     return if acceptable_types.include?(cover_image.content_type)
