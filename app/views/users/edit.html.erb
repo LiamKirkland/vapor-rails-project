@@ -1,16 +1,18 @@
 <h1>Edit Profile</h1>
-<%= form_with model: @user, url: "/edit_profile", method: :patch do |f| %>
-  <%= image_tag current_user.display_profile_pic, class: "pfp-img", width: 200, height: 200 %><br>
-  Profile Picture: <%= f.file_field :profile_pic, accept: "image/png,image/jpeg" %><br>
-  <% if current_user.profile_pic.attached? %>
-    <%= f.check_box :remove_profile_pic %>
-    <%= f.label :remove_profile_pic, "Remove current profile picture" %><br>
+<div class="form-card">
+  <%= form_with model: @user, url: "/edit_profile", method: :patch do |f| %>
+    <%= image_tag current_user.display_profile_pic, class: "pfp-img", width: 200, height: 200 %><br>
+    Profile Picture: <%= f.file_field :profile_pic, accept: "image/png,image/jpeg" %><br>
+    <% if current_user.profile_pic.attached? %>
+      <%= f.check_box :remove_profile_pic %>
+      <%= f.label :remove_profile_pic, "Remove current profile picture" %><br>
+    <% end %>
+    Username: <%= f.text_field :username, required: true %><br>
+    <hr>
+    <i>Leave password fields blank to keep your current password.</i><br>
+    Current Password: <%= f.password_field :current_pass %><br>
+    New Password: <%= f.password_field :password %>
+    Confirm Password: <%= f.password_field :password_confirmation %><br>
+    <%= f.submit %>
   <% end %>
-  Username: <%= f.text_field :username, required: true %><br>
-  <hr>
-  <i>Leave password fields blank to keep your current password.</i><br>
-  Current Password: <%= f.password_field :current_pass %><br>
-  New Password: <%= f.password_field :password %>
-  Confirm Password: <%= f.password_field :password_confirmation %><br>
-  <%= f.submit %>
-<% end %>
+</div>

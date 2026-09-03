@@ -5,7 +5,7 @@ class Friendship < ApplicationRecord
   validates :status, inclusion: { in: %w[pending accepted] }
   validate :not_self_friendship
 
-  private
+private
 
   def not_self_friendship
     errors.add(:friend, "can't be yourself") if user_id == friend_id

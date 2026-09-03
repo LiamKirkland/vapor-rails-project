@@ -22,11 +22,11 @@ class UserGamesController < ApplicationController
     if user_game.update(user_game_params)
       redirect_to user_game.game, notice: "Review added"
     else
-      redirect_to user_game.game, notice: "There was an issue adding your review. Refresh and try again."
+      redirect_to user_game.game, alert: "There was an issue adding your review. Refresh and try again."
     end
   end
 
-  private
+private
 
   def user_game_params
     params.require(:user_game).permit(:review, :score)
