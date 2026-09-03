@@ -26,6 +26,11 @@ class UserGamesController < ApplicationController
     end
   end
 
+  def index
+    @user = User.find(params[:user_id])
+    @user_games = @user.user_games.reviewed.includes(:game)
+  end
+
 private
 
   def user_game_params

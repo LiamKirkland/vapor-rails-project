@@ -1,0 +1,22 @@
+<h1><%= @user.username %>'s Reviews</h1>
+
+<% if @user_games.empty? %>
+  <i><%= @user.username %> hasn't reviewed any games yet.</i>
+<% else %>
+  <ul class="review-grid">
+    <% @user_games.each do |user_game| %>
+      <li class="review-grid-card">
+        <%= link_to game_path(user_game.game) do %>
+          <%= image_tag user_game.game.display_cover_image, width: 100, height: 140, class: "cover-thumb" %>
+        <% end %>
+        <div class="review-grid-info">
+          <h3><%= link_to user_game.game.name, game_path(user_game.game) %></h3>
+          <span class="review-score">Score: <%= user_game.score %></span>
+          <% if user_game.review.present? %>
+            <p><%= user_game.review %></p>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

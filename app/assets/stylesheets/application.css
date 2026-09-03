@@ -464,3 +464,29 @@ nav a:hover {
   width: 28px;
   height: 28px;
 }
+
+.review-grid {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.review-grid-card {
+  display: flex;
+  gap: 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.review-grid-info h3 {
+  margin: 0 0 0.3rem;
+}
+
+.review-grid-info p {
+  margin: 0.5rem 0 0;
+  color: var(--text-primary);
+}

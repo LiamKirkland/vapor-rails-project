@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   end
   resources :user_games, only: %i[destroy]
   resources :users, only: %i[show index] do
+    resources :user_games, only: %i[index]
     member do
       get :admin_edit
       patch :admin_update

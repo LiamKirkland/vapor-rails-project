@@ -25,6 +25,7 @@
   <i><%= @user.username %> hasn't added any games to their collection yet.</i>
 <% else %>
   <%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+  <%= link_to "View All Reviews", user_user_games_path(@user) %>
 <% end %>
 
 <h3 class="section-title">Their friends:</h3>

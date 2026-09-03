@@ -13,6 +13,7 @@
   <i>Visit the <%= link_to 'games list', games_path%> to add some games to your collection!</i>
 <% else %>
   <%= render partial: 'games/gameslist', locals: { games: @user.games } %>
+  <%= link_to "View Your Reviews", user_user_games_path(@user) %>
 <% end %>
 
 <% unless @unreviewed_games.empty? %>
