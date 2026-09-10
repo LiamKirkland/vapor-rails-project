@@ -4,7 +4,7 @@
     <h1><%= @game.name %></h1>
     <h3>Developer: <%= @game.developer %></h3>
     <h3>Release Date: <%= @game.formatted_release %></h3>
-    <h3>Average User Score: <%= @game.avg_score %></h3>
+    <h3>Average User Score: <%= render(ScoreBadgeComponent.new(score: @game.avg_score)) %></h3>
   </div>
 </div>
 

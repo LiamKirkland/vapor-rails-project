@@ -490,3 +490,31 @@ nav a:hover {
   margin: 0.5rem 0 0;
   color: var(--text-primary);
 }
+
+.score-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.score-badge-high {
+  background: rgba(164, 208, 7, 0.2);
+  color: var(--accent-green);
+}
+
+.score-badge-mid {
+  background: rgba(230, 195, 60, 0.2);
+  color: #e6c33c;
+}
+
+.score-badge-low {
+  background: rgba(224, 82, 63, 0.2);
+  color: var(--accent-red);
+}
+
+.score-badge-na {
+  background: rgba(143, 152, 160, 0.2);
+  color: var(--text-secondary);
+}
